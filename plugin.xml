@@ -28,7 +28,7 @@
 
         <config-file target="res/xml/config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="android-package" value="com.ultracreation.cordovasocket"/>
+                <param name="android-package" value="com.ultracreation.UltracreationSocket"/>
             </feature>
         </config-file>
     </platform>
@@ -39,7 +39,7 @@
 
         <config-file target="config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="ios-package" value="CordovaUltraCreationSocket"/>
+                <param name="ios-package" value="UltracreationSocket"/>
             </feature>
         </config-file>
     </platform>
