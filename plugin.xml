@@ -10,36 +10,36 @@
     <engines>
         <engine name="cordova" version=">=3.0.0" />
     </engines>
-    
-    <name>Ultracreation Socket Plugin for Cordova</name>
+
+    <name>Ultracreation Socket Plugin</name>
     <keywords>socket</keywords>
     <repo>https://github.com/ultracreation/cordova-plugin-socket.git</repo>
-    
+
     <js-module src="socket.js" name="Socket">
         <clobbers target="socket" />
     </js-module>
-    
+
     <platform name="android">
         <source-file src="src/android/UltracreationSocket.java" target-dir="src/com/ultracreation" />
-        
+
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
         </config-file>
-        
+
         <config-file target="res/xml/config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="android-package" value="hk.com.ultracreation.cordova.socket"/>
+                <param name="android-package" value="com.ultracreation.cordovasocket"/>
             </feature>
         </config-file>
     </platform>
-    
+
     <platform name="ios">
         <source-file src="src/ios/UltracreationSocket.m" />
         <header-file src="src/ios/UltracreationSocket.h" />
-        
+
         <config-file target="config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="ios-package" value="UltraCreationSocket"/>
+                <param name="ios-package" value="CordovaUltraCreationSocket"/>
             </feature>
         </config-file>
     </platform>
