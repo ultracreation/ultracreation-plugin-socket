@@ -133,6 +133,7 @@ int set_nonblock(int socket)
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
             else
             {
+                /*
                 int block = set_nonblock(socketFd);
                 if(block < 0)
                 {
@@ -140,6 +141,7 @@ int set_nonblock(int socket)
                 }else{
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:socketFd] callbackId:command.callbackId];
                 }
+                */
                 if([socketMode isEqualToString:@"tcp_server"])
                     [_ServerSockets addObject:[NSNumber numberWithInt:socketFd]];
                 else
