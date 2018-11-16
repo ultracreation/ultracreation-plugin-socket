@@ -73,7 +73,7 @@
 
 -(int)getMaxFd:(NSArray*)array
 {
-    NSLog(@"getMaxFd");
+    // NSLog(@"getMaxFd");
     int maxFd = 0;
     for(int i = 0; i < [array count]; i++)
     {
@@ -133,7 +133,6 @@ int set_nonblock(int socket)
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
             else
             {
-                /*
                 int block = set_nonblock(socketFd);
                 if(block < 0)
                 {
@@ -141,7 +140,7 @@ int set_nonblock(int socket)
                 }else{
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:socketFd] callbackId:command.callbackId];
                 }
-                */
+        
                 if([socketMode isEqualToString:@"tcp_server"])
                     [_ServerSockets addObject:[NSNumber numberWithInt:socketFd]];
                 else
@@ -318,7 +317,7 @@ int set_nonblock(int socket)
         int time = [[command argumentAtIndex:1] intValue];
         
         int maxFd = [self getMaxFd:selectSet];
-        NSLog(@"maxFd = %d",maxFd);
+        // NSLog(@"maxFd = %d",maxFd);
         fd_set readfds;
         FD_ZERO(&readfds); //clear the socket set
         
@@ -370,7 +369,7 @@ int set_nonblock(int socket)
         NSData* data = [command argumentAtIndex:1];
         
         const char* buffer = [data bytes];
-        int ret = send(socketId, buffer, strlen(buffer), 0);
+        int ret = send(socketId, buffer, [data length], 0);
         if(ret < 0)
         {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
@@ -410,7 +409,7 @@ int set_nonblock(int socket)
         sockaddr.sin_port = htons(port);
         
         const char* buffer = [data bytes];
-        int ret = sendto(socketId, buffer, strlen(buffer), 0,(struct sockaddr *)&sockaddr, sizeof(sockaddr));
+        int ret = sendto(socketId, buffer, [data length], 0,(struct sockaddr *)&sockaddr, sizeof(sockaddr));
         if(ret < 0)
         {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
