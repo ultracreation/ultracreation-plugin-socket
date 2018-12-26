@@ -458,7 +458,7 @@ int set_nonblock(int socket)
         char buffer[bufferSize];
         
         int ret = recvfrom(socketId , buffer, sizeof(buffer)-1, 0,(struct sockaddr *)&client,&len);
-        NSLog(@"recvfrom = %d socket = %d",ret,socketId);
+        // NSLog(@"recvfrom = %d socket = %d",ret,socketId);
         if(ret < 0)
         {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
