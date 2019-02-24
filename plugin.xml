@@ -5,13 +5,13 @@
  found in the LICENSE file.
  -->
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-    id="cordova-plugin-socket"
+    id="ultracreation-socket-plugin"
     version="1.0.1">
     <engines>
         <engine name="cordova" version=">=3.0.0" />
     </engines>
     
-    <name>Ultracreation Socket Plugin for Cordova</name>
+    <name>Ultracreation Socket Plugin</name>
     <keywords>socket</keywords>
     <repo>https://github.com/ultracreation/cordova-plugin-socket.git</repo>
     
@@ -28,7 +28,7 @@
         
         <config-file target="res/xml/config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="android-package" value="hk.com.ultracreation.cordova.socket"/>
+                <param name="android-package" value="com.ultracreation.UltracreationSocket"/>
             </feature>
         </config-file>
     </platform>
@@ -39,7 +39,7 @@
         
         <config-file target="config.xml" parent="/widget">
             <feature name="Socket">
-                <param name="ios-package" value="UltraCreationSocket"/>
+                <param name="ios-package" value="UltracreationSocket"/>
             </feature>
         </config-file>
     </platform>
