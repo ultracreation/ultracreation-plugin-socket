@@ -1,7 +1,7 @@
 {
     "name": "ultracreation-socket-plugin",
     "version": "1.0.1",
-    "description": "This plugin provides client and server sockets for Android and iOS.",
+    "description": "This plugin provides Native Socket Support for Android and iOS.",
     "cordova": {
       "id": "ultracreation-socket-plugin",
       "platforms": [
@@ -17,10 +17,6 @@
       "ecosystem:cordova",
       "cordova-android"
     ],
-    "engines": {
-        "name": "cordova",
-        "version": ">=3.0.0"
-    },
     "author": "",
     "license": "BSD",
 
