@@ -368,7 +368,7 @@ int set_nonblock(int socket)
         NSData* data = [command argumentAtIndex:1];
         
         const char* buffer = [data bytes];
-        int ret = send(socketId, buffer, strlen(buffer), 0);
+        int ret = send(socketId, buffer, data.length, 0);
         if(ret < 0)
         {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
@@ -408,7 +408,7 @@ int set_nonblock(int socket)
         sockaddr.sin_port = htons(port);
         
         const char* buffer = [data bytes];
-        int ret = sendto(socketId, buffer, strlen(buffer), 0,(struct sockaddr *)&sockaddr, sizeof(sockaddr));
+        int ret = sendto(socketId, buffer, data.length, 0,(struct sockaddr *)&sockaddr, sizeof(sockaddr));
         if(ret < 0)
         {
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
