@@ -73,7 +73,6 @@
 
 -(int)getMaxFd:(NSArray*)array
 {
-    NSLog(@"getMaxFd");
     int maxFd = 0;
     for(int i = 0; i < [array count]; i++)
     {
@@ -84,6 +83,7 @@
             maxFd = [temp intValue];
         }
     }
+    NSLog(@"getMaxFd: %d", maxFd);
     return maxFd;
 }
 
@@ -110,12 +110,9 @@ int set_nonblock(int socket)
 }
 
 - (void)socket:(CDVInvokedUrlCommand*)command
-{
-    NSLog(@"socket");
-    
+{   
     [self.commandDelegate runInBackground:^{
         [self resetError];
-        NSLog(@"runInBackground");
         NSString* socketMode = [command argumentAtIndex:0];
         
         if(socketMode != nil && ([socketMode isEqualToString:@"tcp"] || [socketMode isEqualToString:@"tcp_server"]
@@ -130,12 +127,17 @@ int set_nonblock(int socket)
             }
             
             if(socketFd < 0)
+            {
+                NSLog(@"create socket err: %d", errno);
                 [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
+            }
             else
             {
+                NSLog(@"create socket: %d", socketFd);
                 int block = set_nonblock(socketFd);
                 if(block < 0)
                 {
+                    NSLog(@"socket set_nonblock err: %d", errno);
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
                 }else{
                     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:socketFd] callbackId:command.callbackId];
@@ -144,10 +146,10 @@ int set_nonblock(int socket)
                     [_ServerSockets addObject:[NSNumber numberWithInt:socketFd]];
                 else
                     [_sockets addObject:[NSNumber numberWithInt:socketFd]];
-                NSLog(@"create = %d",socketFd);
             }
         }
         
+        NSLog(@"The socket type is invalid when create socket!");
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
     }];
     
@@ -316,7 +318,7 @@ int set_nonblock(int socket)
         int time = [[command argumentAtIndex:1] intValue];
         
         int maxFd = [self getMaxFd:selectSet];
-        NSLog(@"maxFd = %d",maxFd);
+        NSLog(@"select max fd: %d",maxFd);
         fd_set readfds;
         FD_ZERO(&readfds); //clear the socket set
         
@@ -428,13 +430,12 @@ int set_nonblock(int socket)
         int socketId = [[command argumentAtIndex:0] intValue];
         int bufferSize = [[command argumentAtIndex:1] intValue];
         
-        char buffer[bufferSize];
-        int ret = recv(socketId , buffer, sizeof(buffer)-1, 0);
-        NSLog(@"recv = %d socket = %d",ret,socketId);
+        char buffer[bufferSize + 1];
+        int ret = recv(socketId , buffer, bufferSize, 0);
         if(ret < 0)
         {
+            NSLog(@"socket = %d recv = %d bufsize = %d err: %d", socketId, ret, bufferSize, errno);
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
-            NSLog(@"errno = %d",errno);
         }
         else
         {
@@ -454,14 +455,13 @@ int set_nonblock(int socket)
         
         struct sockaddr_in client;
         socklen_t len = sizeof(client);
-        char buffer[bufferSize];
+        char buffer[bufferSize + 1];
         
-        int ret = recvfrom(socketId , buffer, sizeof(buffer)-1, 0,(struct sockaddr *)&client,&len);
-        NSLog(@"recvfrom = %d socket = %d",ret,socketId);
+        int ret = recvfrom(socketId , buffer, bufferSize, 0,(struct sockaddr *)&client,&len);
         if(ret < 0)
         {
+            NSLog(@"socket = %d recvfrom = %d bufsize = %d err: %d", socketId, ret, bufferSize, errno);
             [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsInt:errno] callbackId:command.callbackId];
-            NSLog(@"errno = %d",errno);
         }
         else
         {
