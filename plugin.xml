@@ -42,5 +42,13 @@
                 <param name="ios-package" value="UltracreationSocket"/>
             </feature>
         </config-file>
+
+        <!--Add Network Multicast permission for ios14.5 later-->
+        <config-file parent="com.apple.developer.networking.multicast" target="*/Entitlements-Debug.plist">
+                <true/>
+        </config-file>
+        <config-file parent="com.apple.developer.networking.multicast" target="*/Entitlements-Release.plist">
+                <true/>
+        </config-file>
     </platform>
 </plugin>
