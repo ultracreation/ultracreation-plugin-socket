@@ -34,7 +34,7 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class UltracreationSocket extends CordovaPlugin 
+public class UltracreationSocket extends CordovaPlugin
 {
     private static final String TAG = "UltracreationSocket";
 
@@ -104,25 +104,28 @@ public class UltracreationSocket extends CordovaPlugin
         }
         return true;
     }
-	
+
     private void getifaddrs(final CallbackContext context) throws JSONException {
         cordova.getThreadPool().submit(new Runnable() {
             @Override
             public void run() {
-                List<InetAddress> localInetAddresses = getLocalInetAddresses(true, false, false);
-                JSONArray array = new JSONArray();
-                for (int i = 0; i < localInetAddresses.size(); i++) {
-                    array.put(localInetAddresses.get(i).getHostAddress());
+                try
+                {
+                    JSONArray array = getLocalInetAddresses(true, false);
+                    context.sendPluginResult(new PluginResult(PluginResult.Status.OK, array));
                 }
-                context.sendPluginResult(new PluginResult(PluginResult.Status.OK, array));
+                catch (JSONException e)
+                {
+                    Log.e(TAG, "getifaddrs err!");
+                    context.error(ERROR_CODE);
+                }
             }
         });
-        
+
     }
 
-    private  List<InetAddress> getLocalInetAddresses(boolean getIPv4, boolean getIPv6, boolean sortIPv4BeforeIPv6) {
-        List<InetAddress> arrayIPAddress = new ArrayList<InetAddress>();
-        int lastIPv4Index = 0;
+    private JSONArray getLocalInetAddresses(boolean getIPv4, boolean getIPv6) throws JSONException {
+        JSONArray arrayIPAddress = new JSONArray();
 
         // Get all network interfaces
         Enumeration<NetworkInterface> networkInterfaces;
@@ -155,7 +158,6 @@ public class UltracreationSocket extends CordovaPlugin
 
             while (addresses.hasMoreElements()) {
                 InetAddress inetAddress = addresses.nextElement();
-                int index = arrayIPAddress.size();
 
                 if (!getIPv4 || !getIPv6) {
                     if (getIPv4 && !Inet4Address.class.isInstance(inetAddress))
@@ -163,11 +165,12 @@ public class UltracreationSocket extends CordovaPlugin
 
                     if (getIPv6 && !Inet6Address.class.isInstance(inetAddress))
                         continue;
-                } else if (sortIPv4BeforeIPv6 && Inet4Address.class.isInstance(inetAddress)) {
-                    index = lastIPv4Index++;
                 }
 
-                arrayIPAddress.add(index, inetAddress);
+                JSONObject jaddr = new JSONObject();
+                jaddr.put("name", card.getDisplayName());
+                jaddr.put("addr", inetAddress.getHostAddress());
+                arrayIPAddress.put(jaddr);
             }
         }
 
