@@ -655,8 +655,13 @@ int set_nonblock(int socket)
                     char* info = inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr);
                     NSString* addr = [NSString stringWithUTF8String:info];
                     if(![addr isEqualToString:@"127.0.0.1"])
-                        [result addObject:addr];
-                    
+                    {
+                        NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:2];
+                        NSString* name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+                        [dict setValue:name forKey:@"name"];
+                        [dict setValue:addr forKey:@"addr"];
+                        [result addObject:dict];
+                    }
                 }
                 
                 temp_addr = temp_addr->ifa_next;
