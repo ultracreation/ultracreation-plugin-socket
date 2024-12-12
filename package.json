@@ -1,9 +1,9 @@
 {
-    "name": "ultracreation-socket-plugin",
+    "name": "ultracreation-plugin-socket",
     "version": "1.0.2",
     "description": "This plugin provides Native Socket Support for Android and iOS.",
     "cordova": {
-      "id": "ultracreation-socket-plugin",
+      "id": "ultracreation-plugin-socket",
       "platforms": [
         "android",
         "ios"
@@ -11,14 +11,13 @@
     },
     "repository": {
       "type": "git",
-      "url": "https://github.com/ultracreation/cordova-plugin-socket.git"
+      "url": "https://github.com/ultracreation/ultracreation-plugin-socket.git"
     },
     "keywords": [
       "ecosystem:cordova",
       "cordova-android"
     ],
-    "author": "",
+    "author": "UltraCreation",
     "license": "BSD",
-
-    "homepage": "https://github.com/disword/ultracreation-socket-plugin"
+    "homepage": "https://github.com/ultracreation/ultracreation-plugin-socket"
   }

@@ -5,7 +5,7 @@
  found in the LICENSE file.
  -->
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
-    id="ultracreation-socket-plugin"
+    id="ultracreation-plugin-socket"
     version="1.0.2">
     <engines>
         <engine name="cordova" version=">=3.0.0" />
@@ -13,7 +13,7 @@
 
     <name>Ultracreation Socket Plugin</name>
     <keywords>socket</keywords>
-    <repo>https://github.com/ultracreation/cordova-plugin-socket.git</repo>
+    <repo>https://github.com/ultracreation/ultracreation-plugin-socket.git</repo>
 
     <js-module src="socket.js" name="Socket">
         <clobbers target="socket" />
